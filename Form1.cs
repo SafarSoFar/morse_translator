@@ -9,6 +9,7 @@ namespace morse__GUI
         int freq;
         int dotLength;
         int dashLength;
+        string output;
         public Form1()
         {
             InitializeComponent();
@@ -31,6 +32,7 @@ namespace morse__GUI
 
                 Thread.Sleep(dashLength);
             }
+            outputTextBox.Text = output;
 
         }
 
@@ -41,15 +43,26 @@ namespace morse__GUI
             if(lenComboBox.SelectedItem != null)
             {
                 string tmpStr = lenComboBox.SelectedItem.ToString();
+                dotLength = Int32.Parse(tmpStr);
             }
             else
             {
                 MessageBox.Show("Didn't choose the length", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return ;
             }
+            if (freqComboBox.SelectedItem != null)
+            {
+                string tmpStr = freqComboBox.SelectedItem.ToString();
+                freq = Int32.Parse(tmpStr);
+            }
+            else
+            {
+                MessageBox.Show("Didn't choose the frequency", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                
+                return;
+            }
             dashLength = dotLength * 3;
-            wordPause = dotLength * 7;
-            freq = Int32.Parse(freqComboBox.SelectedValue.ToString());
+            wordPause = dotLength * 7;            
             Dictionary<char, string> cyrDic = new Dictionary<char, string>();
             cyrDic['а'] = "*-";
             cyrDic['б'] = "-***";
@@ -61,19 +74,20 @@ namespace morse__GUI
             cyrDic['ж'] = "***-";
             cyrDic['з'] = "--**";
             cyrDic['и'] = "**";
-            cyrDic['к'] = "*---";
-            cyrDic['л'] = "-*-";
-            cyrDic['м'] = "-*--";
-            cyrDic['н'] = "--";
-            cyrDic['о'] = "-*";
-            cyrDic['п'] = "---";
-            cyrDic['р'] = "*--*";
-            cyrDic['с'] = "*-*";
-            cyrDic['т'] = "***";
-            cyrDic['у'] = "-";
-            cyrDic['ф'] = "**-";
-            cyrDic['х'] = "**-*";
-            cyrDic['ц'] = "****";
+            cyrDic['й'] = "*---";
+            cyrDic['к'] = "-*-";
+            cyrDic['л'] = "-*--";
+            cyrDic['м'] = "--";
+            cyrDic['н'] = "-*";
+            cyrDic['о'] = "---";
+            cyrDic['п'] = "*--*";
+            cyrDic['р'] = "*-*";
+            cyrDic['с'] = "***";
+            cyrDic['т'] = "-";
+            cyrDic['у'] = "**-";
+            cyrDic['ф'] = "**-*";
+            cyrDic['х'] = "****";
+            cyrDic['ц'] = "-*-*";
             cyrDic['ч'] = "---*";
             cyrDic['ш'] = "----";
             cyrDic['щ'] = "--*-";
@@ -83,7 +97,8 @@ namespace morse__GUI
             cyrDic['э'] = "***-***";
             cyrDic['ю'] = "**--";
             cyrDic['я'] = "*-*-";
-            string output = "";
+            cyrDic[' '] = " ";
+            output = "";
             int len = inputTextBox.TextLength;
             for (int i = 0; i < len; i++)
             {
@@ -100,12 +115,13 @@ namespace morse__GUI
                     {
                         CreateSound(cyrDic[inputTextBox.Text[i]][j]);
                     }
+                    output += ' ';
                 }
+                
                 //cout << ' ';
             }
             //std::cout << '\n';
             //std::cout << output;
-            outputTextBox.Text = output;
         }
     }
 }

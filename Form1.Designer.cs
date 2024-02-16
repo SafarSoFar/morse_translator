@@ -138,7 +138,7 @@
             // 
             lenComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
             lenComboBox.FormattingEnabled = true;
-            lenComboBox.Items.AddRange(new object[] { "100", "200", "300", "400", "500" });
+            lenComboBox.Items.AddRange(new object[] { "80", "90", "100", "110" });
             lenComboBox.Location = new Point(391, 106);
             lenComboBox.Name = "lenComboBox";
             lenComboBox.Size = new Size(81, 28);
