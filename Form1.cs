@@ -10,60 +10,13 @@ namespace morse__GUI
         int dotLength;
         int dashLength;
         string output;
+        Dictionary<char, string> cyrDic = new Dictionary<char, string>();
+        Dictionary<char, string> latDic = new Dictionary<char, string>();
+
         public Form1()
         {
             InitializeComponent();
-        }
-
-        void CreateSound(char ch)
-        {           
-            if (ch == ' ')
-            {
-                Thread.Sleep(wordPause);
-            }
-            else
-            {
-                if (ch == '*')
-                {
-                    Console.Beep(freq, dotLength);
-                }
-                else
-                    Console.Beep(freq, dashLength);
-
-                Thread.Sleep(dashLength);
-            }
-            outputTextBox.Text = output;
-
-        }
-
-        private void translateButton_Click(object sender, EventArgs e)
-        {
-
-            //dotLength = Int32.Parse(lenComboBox.SelectedValue.ToString());
-            if(lenComboBox.SelectedItem != null)
-            {
-                string tmpStr = lenComboBox.SelectedItem.ToString();
-                dotLength = Int32.Parse(tmpStr);
-            }
-            else
-            {
-                MessageBox.Show("Didn't choose the length", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return ;
-            }
-            if (freqComboBox.SelectedItem != null)
-            {
-                string tmpStr = freqComboBox.SelectedItem.ToString();
-                freq = Int32.Parse(tmpStr);
-            }
-            else
-            {
-                MessageBox.Show("Didn't choose the frequency", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                
-                return;
-            }
-            dashLength = dotLength * 3;
-            wordPause = dotLength * 7;            
-            Dictionary<char, string> cyrDic = new Dictionary<char, string>();
+            //Cyrillic
             cyrDic['а'] = "*-";
             cyrDic['б'] = "-***";
             cyrDic['в'] = "*--";
@@ -98,30 +51,148 @@ namespace morse__GUI
             cyrDic['ю'] = "**--";
             cyrDic['я'] = "*-*-";
             cyrDic[' '] = " ";
-            output = "";
-            int len = inputTextBox.TextLength;
-            for (int i = 0; i < len; i++)
-            {
+            //Latin
+            latDic['a'] = "*-";
+            latDic['b'] = "-***";
+            latDic['c'] = "-*-*";
+            latDic['d'] = "-**";
+            latDic['e'] = "*";
+            latDic['f'] = "**-*";
+            latDic['g'] = "--*";
+            latDic['h'] = "****";
+            latDic['i'] = "**";
+            latDic['j'] = "*---";
+            latDic['k'] = "-*-";
+            latDic['l'] = "*-**";
+            latDic['m'] = "--";
+            latDic['n'] = "-*";
+            latDic['o'] = "---";
+            latDic['p'] = "*--*";
+            latDic['q'] = "--*-";
+            latDic['r'] = "-*-";
+            latDic['s'] = "***";
+            latDic['t'] = "-";
+            latDic['u'] = "**-";
+            latDic['v'] = "***-";
+            latDic['w'] = "*--";
+            latDic['x'] = "-**-";
+            latDic['y'] = "-*--";
+            latDic['z'] = "--**";
+        }
 
-                if (inputTextBox.Text[i] == ' ')
+        void CreateSound(char ch)
+        {
+            if (ch == ' ')
+            {
+                Thread.Sleep(wordPause);
+            }
+            else
+            {
+                if (ch == '*')
                 {
-                    output += ' ';
-                    CreateSound(inputTextBox.Text[i]);
+                    Console.Beep(freq, dotLength);
                 }
                 else
-                {
-                    output += cyrDic[inputTextBox.Text[i]];
-                    for (int j = 0; j < cyrDic[inputTextBox.Text[i]].Length; j++)
-                    {
-                        CreateSound(cyrDic[inputTextBox.Text[i]][j]);
-                    }
-                    output += ' ';
-                }
-                
-                //cout << ' ';
+                    Console.Beep(freq, dashLength);
+
+                Thread.Sleep(dashLength);
             }
-            //std::cout << '\n';
-            //std::cout << output;
+            outputTextBox.Text = output;
+
+        }
+
+        private void translateButton_Click(object sender, EventArgs e)
+        {
+            Dictionary<char, string> curDic;
+            if (symbolsComboBox.SelectedItem != null)
+            {
+                string cur = symbolsComboBox.SelectedItem.ToString();
+                if (cur == "Cyrillic")
+                {
+                    curDic = cyrDic;
+                }
+                else
+                    curDic = latDic;
+            }
+            else
+            {
+                MessageBox.Show("Didn't choose the alphabet", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            if (lenComboBox.SelectedItem != null)
+            {
+                string tmpStr = lenComboBox.SelectedItem.ToString();
+                dotLength = Int32.Parse(tmpStr);
+            }
+            else
+            {
+                MessageBox.Show("Didn't choose the length", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            if (freqComboBox.SelectedItem != null)
+            {
+                string tmpStr = freqComboBox.SelectedItem.ToString();
+                freq = Int32.Parse(tmpStr);
+            }
+            else
+            {
+                MessageBox.Show("Didn't choose the frequency", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            dashLength = dotLength * 3;
+            wordPause = dotLength * 7;
+
+            output = "";
+            int len = inputTextBox.TextLength;
+            inputTextBox.Text = inputTextBox.Text.ToLower();
+            try
+            {
+                for (int i = 0; i < len; i++)
+                {
+
+                    if (inputTextBox.Text[i] == ' ')
+                    {
+                        output += ' ';
+                        CreateSound(inputTextBox.Text[i]);
+                    }
+                    else
+                    {
+                        output += curDic[inputTextBox.Text[i]];
+                        for (int j = 0; j < curDic[inputTextBox.Text[i]].Length; j++)
+                        {
+                            CreateSound(curDic[inputTextBox.Text[i]][j]);
+                        }
+                        output += ' ';
+                    }
+
+
+                }
+
+            }
+            catch (System.Collections.Generic.KeyNotFoundException)
+            {
+                MessageBox.Show("Wrong symbols type!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+        }
+
+        private void memeButton_Click(object sender, EventArgs e)
+        {
+            Form2 frm2 = new Form2();
+            //this.Controls.Add(frm2);
+            frm2.Show();
+        }
+
+        private void memeButton_MouseEnter(object sender, EventArgs e)
+        {
+            memeButton.ForeColor = Color.Black;
+        }
+
+        private void memeButton_MouseLeave(object sender, EventArgs e)
+        {
+            memeButton.ForeColor = System.Drawing.SystemColors.Control;
         }
     }
 }

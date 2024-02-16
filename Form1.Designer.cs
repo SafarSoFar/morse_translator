@@ -30,8 +30,7 @@
         {
             inputTextBox = new TextBox();
             outputTextBox = new TextBox();
-            inputComboBox = new ComboBox();
-            backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            symbolsComboBox = new ComboBox();
             appLabel = new Label();
             inputLabel = new Label();
             outputLabel = new Label();
@@ -40,6 +39,8 @@
             freqComboBox = new ComboBox();
             freqLabel = new Label();
             lenComboBox = new ComboBox();
+            label1 = new Label();
+            memeButton = new Label();
             SuspendLayout();
             // 
             // inputTextBox
@@ -58,15 +59,15 @@
             outputTextBox.Size = new Size(389, 98);
             outputTextBox.TabIndex = 1;
             // 
-            // inputComboBox
+            // symbolsComboBox
             // 
-            inputComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
-            inputComboBox.FormattingEnabled = true;
-            inputComboBox.Items.AddRange(new object[] { "Cyrillic", "Latin" });
-            inputComboBox.Location = new Point(60, 106);
-            inputComboBox.Name = "inputComboBox";
-            inputComboBox.Size = new Size(176, 28);
-            inputComboBox.TabIndex = 2;
+            symbolsComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
+            symbolsComboBox.FormattingEnabled = true;
+            symbolsComboBox.Items.AddRange(new object[] { "Cyrillic", "Latin" });
+            symbolsComboBox.Location = new Point(60, 106);
+            symbolsComboBox.Name = "symbolsComboBox";
+            symbolsComboBox.Size = new Size(176, 28);
+            symbolsComboBox.TabIndex = 2;
             // 
             // appLabel
             // 
@@ -107,11 +108,11 @@
             // 
             // translateButton
             // 
-            translateButton.Location = new Point(130, 430);
+            translateButton.Location = new Point(119, 429);
             translateButton.Name = "translateButton";
-            translateButton.Size = new Size(247, 29);
+            translateButton.Size = new Size(278, 38);
             translateButton.TabIndex = 7;
-            translateButton.Text = "button1";
+            translateButton.Text = "Translate";
             translateButton.UseVisualStyleBackColor = true;
             translateButton.Click += translateButton_Click;
             // 
@@ -130,25 +131,49 @@
             freqLabel.AutoSize = true;
             freqLabel.Location = new Point(252, 83);
             freqLabel.Name = "freqLabel";
-            freqLabel.Size = new Size(152, 20);
+            freqLabel.Size = new Size(30, 20);
             freqLabel.TabIndex = 9;
-            freqLabel.Text = "Choose the frequency";
+            freqLabel.Text = "Hz:";
             // 
             // lenComboBox
             // 
             lenComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
             lenComboBox.FormattingEnabled = true;
-            lenComboBox.Items.AddRange(new object[] { "80", "90", "100", "110" });
+            lenComboBox.Items.AddRange(new object[] { "80", "90", "100" });
             lenComboBox.Location = new Point(391, 106);
             lenComboBox.Name = "lenComboBox";
             lenComboBox.Size = new Size(81, 28);
             lenComboBox.TabIndex = 10;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(391, 83);
+            label1.Name = "label1";
+            label1.Size = new Size(62, 20);
+            label1.TabIndex = 11;
+            label1.Text = "Millisec:";
+            // 
+            // memeButton
+            // 
+            memeButton.AutoSize = true;
+            memeButton.ForeColor = SystemColors.Control;
+            memeButton.Location = new Point(12, 476);
+            memeButton.Name = "memeButton";
+            memeButton.Size = new Size(79, 20);
+            memeButton.TabIndex = 12;
+            memeButton.Text = "Easter egg";
+            memeButton.Click += memeButton_Click;
+            memeButton.MouseEnter += memeButton_MouseEnter;
+            memeButton.MouseLeave += memeButton_MouseLeave;
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(505, 505);
+            Controls.Add(memeButton);
+            Controls.Add(label1);
             Controls.Add(lenComboBox);
             Controls.Add(freqLabel);
             Controls.Add(freqComboBox);
@@ -157,7 +182,7 @@
             Controls.Add(outputLabel);
             Controls.Add(inputLabel);
             Controls.Add(appLabel);
-            Controls.Add(inputComboBox);
+            Controls.Add(symbolsComboBox);
             Controls.Add(outputTextBox);
             Controls.Add(inputTextBox);
             Name = "Form1";
@@ -170,8 +195,7 @@
 
         private TextBox inputTextBox;
         private TextBox outputTextBox;
-        private ComboBox inputComboBox;
-        private System.ComponentModel.BackgroundWorker backgroundWorker1;
+        private ComboBox symbolsComboBox;
         private Label appLabel;
         private Label inputLabel;
         private Label outputLabel;
@@ -180,5 +204,7 @@
         private ComboBox freqComboBox;
         private Label freqLabel;
         private ComboBox lenComboBox;
+        private Label label1;
+        private Label memeButton;
     }
 }
