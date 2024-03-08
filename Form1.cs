@@ -79,7 +79,7 @@ namespace morse__GUI
             latDic['y'] = "-*--";
             latDic['z'] = "--**";
         }
-
+        // Создание звука
         void CreateSound(char ch)
         {
             if (ch == ' ')
@@ -100,7 +100,7 @@ namespace morse__GUI
             outputTextBox.Text = output;
 
         }
-
+        // Нажатие кнопки перевода
         private void translateButton_Click(object sender, EventArgs e)
         {
             Dictionary<char, string> curDic;
@@ -116,6 +116,7 @@ namespace morse__GUI
             }
             else
             {
+                // Ошибка при не выборе алфавита
                 MessageBox.Show("Didn't choose the alphabet", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
@@ -127,6 +128,7 @@ namespace morse__GUI
             }
             else
             {
+            // Ошибка при не выборе длины звучания точки
                 MessageBox.Show("Didn't choose the length", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
@@ -137,10 +139,13 @@ namespace morse__GUI
             }
             else
             {
+            // Ошибка при не выборе частоты звучания точки
                 MessageBox.Show("Didn't choose the frequency", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
+            // длина тире - 3 точки
             dashLength = dotLength * 3;
+            // длина пазуы между словами - 7 точек 
             wordPause = dotLength * 7;
 
             output = "";
@@ -170,6 +175,7 @@ namespace morse__GUI
                 }
 
             }
+            // Если использован неправильный алфавит - ошибка
             catch (System.Collections.Generic.KeyNotFoundException)
             {
                 MessageBox.Show("Wrong symbols type!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
